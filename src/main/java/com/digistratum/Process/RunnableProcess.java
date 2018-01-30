@@ -1,6 +1,6 @@
 package com.digistratum.Process;
 
-public interface MHRunnable extends Runnable {
+public interface RunnableProcess extends Runnable {
 
 	/**
 	 * Determine from the outside whether we are running
@@ -10,7 +10,7 @@ public interface MHRunnable extends Runnable {
 	boolean isRunning();
 
 	/**
-	 * Stop the main loop from running any longer
+	 * Stop the process loop from running any longer
 	 */
 	void stop();
 }

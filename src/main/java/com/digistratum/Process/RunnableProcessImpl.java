@@ -2,10 +2,10 @@ package com.digistratum.Process;
 
 import org.apache.log4j.Logger;
 
-public class MHRunnableImpl implements MHRunnable {
+public class RunnableProcessImpl implements RunnableProcess {
 	// ref: http://www.java67.com/2015/07/how-to-stop-thread-in-java-example.html
 	private volatile boolean amRunning = false;
-	protected final static Logger log = Logger.getLogger(MHRunnableImpl.class);
+	protected final static Logger log = Logger.getLogger(RunnableProcessImpl.class);
 
 	@Override
 	public boolean isRunning() {
