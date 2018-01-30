@@ -11,8 +11,6 @@ import java.util.List;
  * put the RestApi into its own thread and let it run while we monitor. This gives us the
  * ability to potentially spawn more threads and/or perform additional work as needed while the
  * RestApi service does its job.
- *
- * TODO Add support for executing one or more Callbacks during the mainLoop
  */
 abstract public class ProcessRunner {
 	protected List<RunnableProcess> runnables;
@@ -26,25 +24,31 @@ abstract public class ProcessRunner {
 	}
 
 	/**
-	 * Start a runnable running
+	 * Load a runnable into our collection
 	 *
-	 * @param runnable JGRunnable implementation instance that we can start running
+	 * @param runnable JGRunnable implementation instance that we can run
 	 */
-	public void start(RunnableProcess runnable) {
+	public void load(RunnableProcess runnable) {
 		if (null == runnable) {
 			throw new ProcessException("Attempted to start running a NULL runner!");
 		}
-
-		// Start the runnable process in a new thread
-		String uniqueThreadName = "RunnableProcess-" + runnables.size();
-		Thread t = new Thread(runnable, uniqueThreadName);
-		t.start();
+		runnables.add(runnable);
 	}
 
 	/**
 	 * Wait for all runnables to finish running
 	 */
-	public void mainLoop() {
+	public void run() {
+
+		// Start everything running
+		for (RunnableProcess runnable : runnables) {
+			// Start the runnable process in a new thread
+			String uniqueThreadName = "RunnableProcess-" + runnables.size();
+			Thread t = new Thread(runnable, uniqueThreadName);
+			t.start();
+		}
+
+		// Now wait...
 		boolean somethingIsRunning;
 		do {
 			// Make sure that we have at least one runnable still running!
